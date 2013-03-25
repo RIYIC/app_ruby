@@ -76,9 +76,9 @@ gem_package "bundler"
 # ##################
 case app['database']['type']
   when "sqlite"
-    include_recipe "lang_ruby::_sqlite"
+    include_recipe "app_ruby::_sqlite"
   when "mysql"
-    include_recipe "lang_ruby::_mysql"
+    include_recipe "app_ruby::_mysql"
   #when "postgresql"
 end
 

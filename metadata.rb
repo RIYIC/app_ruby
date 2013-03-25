@@ -34,7 +34,7 @@ attribute "apps/rails/domain",
     :description => 'Domain associated to app virtual host',
     :default => 'test.com',
     :advanced => false,
-    :validations => {fixed: "domain"}
+    :validations => {predefined: "domain"}
 
 attribute "apps/rails/environment",
     :display_name => 'Application environment',
@@ -47,45 +47,45 @@ attribute "apps/rails/dir",
     :description => 'Document_root directory where to point virtualhost',
     :default => '/home/app/doc_root',
     :advanced => false,
-    :validations => {fixed: "unix_path"}
+    :validations => {predefined: "unix_path"}
 
 attribute "apps/rails/user",
     :display_name => "Application system user",
     :description => 'System user to run application',
     :default => 'app',
-    :validations => {fixed: "username"}
+    :validations => {predefined: "username"}
 
 attribute "apps/rails/group",
     :display_name => "Application system group",
     :description => 'System group to run application',
     :default => 'app',
-    :validations => {fixed: "username"}
+    :validations => {predefined: "username"}
 
 attribute "apps/rails/homedir",
     :display_name => "Application system user homedir",
     :description => 'Application system user homedir',
     :default => '/home/app',
-    :validations => {fixed: "unix_path"}
+    :validations => {predefined: "unix_path"}
 
 attribute "apps/rails/database/name",
     :display_name => "Application database name",
     :description => 'Application database name (only to mysql or postgresql)',
     :default => 'app',
-    :validations => {fixed: "mysql_dbname"},
+    :validations => {predefined: "mysql_dbname"},
     :advanced => false
 
 attribute "app/rails/database/username",
     :display_name => "Application database username",
     :description => 'Application database username (only to mysql or postgresql)',
     :default => 'app',
-    :validations => {fixed: "mysql_dbuser"},
+    :validations => {predefined: "mysql_dbuser"},
     :advanced => false
 
 attribute "apps/rails/database/password",
     :display_name => "Application Database Password" ,
     :description => "Database password for the application installation",
     :calculated => true,
-    :validations => {regex: /\A\w+\z/}
+    :validations => {predefined: "db_password"}
 
 attribute "apps/rails/database/type",
     :display_name => "Application database type",
@@ -98,35 +98,35 @@ attribute "apps/rails/database/hostname",
     :display_name => "App database hostname",
     :description => 'Application database hostname (only to mysql or postgresql)',
     :default => 'localhost',
-    :validations => {fixed: "host"}
+    :validations => {predefined: "host"}
 
 attribute "apps/rails/source/repo/url",
     :display_name => 'App repository url of source code',
     :description => 'App repository from which to download source code',
     :advanced => false,
     :required => true,
-    :validations => {fixed: "url"}
+    :validations => {predefined: "url"}
 
 attribute "apps/rails/source/repo/reference",
     :display_name => 'Application Repository reference',
     :description => 'Application repository tag/branch/commit to download',
     :advanced => false,
     :required => true,
-    :validation => {regex: /\w+/}
+    :validations => {predefined: "revision"}
 
 attribute "apps/rails/source/repo/private",
     :display_name => 'Is Application Repository Private?',
     :description => 'Is application repository private?',
-    :default_value => "false",
+    :default => "false",
     :choice => ["true","false"]
 
 attribute "apps/rails/source/repo/priv_key",
     :display_name => 'Application repository private key',
     :description => 'Application repository private_key to access',
-    :validation => {regex: /\w+/}
+    :validations => {predefined: "multiline_text"}
 
 attribute "apps/rails/deploy_to",
     :display_name => "deploy_to directory",
     :description => 'Directory to where deploy app source code',
     :default => '/home/app/deploy',
-    :validations => {fixed: "unix_path"}
+    :validations => {predefined: "unix_path"}
