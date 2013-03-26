@@ -13,6 +13,8 @@ depends "lang_nodejs"
 depends "dbsystem_mysql"
 depends "appserver_nginx"
 
+depends "build-essential"
+
 %w{debian ubuntu}.each do |os|
   supports os
 end
