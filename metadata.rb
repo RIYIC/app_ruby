@@ -125,6 +125,7 @@ attribute "apps/rails/source/repo/private",
 attribute "apps/rails/source/repo/priv_key",
     :display_name => 'Application repository private key',
     :description => 'Application repository private_key to access',
+    :field_type => 'textarea',
     :validations => {predefined: "multiline_text"}
 
 attribute "apps/rails/deploy_to",
