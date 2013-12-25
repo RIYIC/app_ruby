@@ -10,7 +10,7 @@ version          "0.0.1"
 depends "lang_ruby"
 depends "lang_nodejs"
 
-depends "dbsystem_mysql"
+depends "dbs_mysql"
 depends "appserver_nginx"
 depends "code_repo"
 
@@ -115,7 +115,7 @@ attribute "app/ruby/rack_apps/@/migrate",
 attribute "app/ruby/rack_apps/@/migration_command",
     :display_name => 'Migration command',
     :description => 'Command to run to migrate application to current state',
-    :default => "rake db:migrate",
+    :default => "bundle exec rake db:migrate",
     :validations => {predefined: "unix_command"}
 
 # attribute "app/ruby/rack_apps/@/remote_user",
@@ -139,6 +139,7 @@ attribute "app/ruby/rack_apps/@/extra_packages",
     :display_name => 'System extra packages needed',
     :description => 'System extra packages needed for the application',
     :type => "array",
+    :default => [],
     :validations => {predefined: "package_name"}
 
 attribute "app/ruby/rack_apps/@/postdeploy_script",
