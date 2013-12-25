@@ -3,7 +3,7 @@
 # 1) supoñemos que a runlist ten que levar a instalacion do servidor mysql
 # nalgun lado (nos vamos a contar con que temos disponible o atributo
 
-include_recipe "dbsystem_mysql"
+include_recipe "dbs_mysql"
 gem_package "mysql2"
 
 
