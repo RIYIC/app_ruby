@@ -56,13 +56,14 @@ node["app"]["ruby"]["rack_apps"].each do |app|
     url         app["repo_url"]
     revision    app["revision"]
     credential  app["credential"]
+    notifies    :create,"directory[#{app["target_path"]}/tmp]"
   end
 
   # todas as app rack deben ter un directorio tmp
   directory "#{app["target_path"]}/tmp" do
     owner app["owner"]
     group app["group"]
-    recursive true
+    action :nothing
   end
 
   # variables de entorno
