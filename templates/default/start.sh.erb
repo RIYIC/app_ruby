@@ -1,0 +1,16 @@
+#!/bin/bash
+<% @env.each do |name,value| %>
+export <%=name%>=<%=value %>
+<%end%>
+
+<%if @app["migrate"] == "yes" %>
+cd <%= @app["target_path"] %> && <%=@app["migration_command"] %>
+<%end%>
+
+<% if not @app["postdeploy_script"].nil? and
+      not @app["postdeploy_script"].empty? and 
+      ::File.exists?("#{@app["target_path"]}/#{@app["postdeploy_script"]}") %>
+cd <%= @app["target_path"] %> && bash <%=@app["postdeploy_script"] %>
+<%end%>
+
+exec supervisord -c /etc/supervisord.conf -n 

@@ -5,7 +5,13 @@
 # Seria para usar de forma apilable, para poder facer o deploy de varias apps
 node["app"]["ruby"]["rack_apps"].each do |app|
 
+  #instalar paquetes de sistema necesarios
+  # forzamos a que o atributo sexa tratado como un array (porque pode vir nil)
+  Array(app["extra_packages"]).each do |pkg|
+    package pkg
+  end
 
+  ## DE ESTO AGORA SE ENCARGA code_repo
   # # creamos o entorno da app
   # owner_home = "/home/#{app["owner"]}"
 
@@ -22,14 +28,6 @@ node["app"]["ruby"]["rack_apps"].each do |app|
   #   group app["group"]
   #   recursive true
   # end
-
-
-  #instalar paquetes de sistema necesarios
-  if app["extra_packages"]
-    app["extra_packages"].each do |pkg|
-      package pkg
-    end
-  end
 
   # descargamos o codigo da app
   # en funcion do tipo de repositorio
@@ -80,44 +78,50 @@ node["app"]["ruby"]["rack_apps"].each do |app|
       cwd         app["target_path"]
       environment env_hash
       ## fundamental meter o --path dentro do propio deploy, senon trata de instalar no home do usuario que lance o sudo
-      code        %{bundle install --path=vendor/bundle --binstubs --without #{app["exclude_bundler_groups"].join(' ')}}
+      ## code        %{bundle install --path=vendor/bundle --binstubs --without #{app["exclude_bundler_groups"].join(' ')}}
+      code        %{bundle install --deployment --binstubs --without #{app["exclude_bundler_groups"].join(' ')}}
+
   end
 
+  # realizamos a migracion da bbdd e as tarefas extra de forma distinta
+  # se o nodo e un container docker ou non
+  if node["riyic"]["dockerized"] == "yes"
 
-  # aplicamos a migracion
-  if app["migrate"] == "yes"
-
-    rvm_shell "exec_db_migration" do    
-      user        app["owner"]
-      group       app["group"]
-      cwd         "#{app["target_path"]}"
-      environment env_hash
-      code        app["migration_command"]
+    template "/root/start.sh" do
+      source "start.sh.erb"
+      mode "755"
+      owner "root"
+      group "root"
+      variables({
+         :app => app,
+         :env => env_hash,
+      })
     end
 
-  end
+  else
+    # aplicamos a migracion
+    rvm_shell "exec_db_migration" do    
+        user        app["owner"]
+        group       app["group"]
+        cwd         app["target_path"]
+        environment env_hash
+        code        app["migration_command"]
+        only_if     app["migrate"] == "yes"
+    end
 
-
-  # executamos script post deploy
-  if app["postdeploy_script"]
-    # rvm_shell "postdeploy" do    
-    #     user        app["owner"]
-    #     group       app["group"]
-    #     cwd         app["target_path"]
-    #     environment env_hash
-    #     code        %{bash #{app["target_path"]}/#{app["postdeploy_script"]}}
-    # end
-    
-    # co -l -c NON FAI FALTA meter o bash nun rvm_shell, pero ambos funcionan perfectamente
+    # agora temos o recurso "bash" parcheado para que utilice rvm_shell como provider
     bash "postdeploy" do    
         user        app["owner"]
         group       app["group"]
         cwd         app["target_path"]
         environment env_hash
-        #code        %{bash -l -c #{app["target_path"]}/#{app["postdeploy_script"]}}
         code        %{bash #{app["target_path"]}/#{app["postdeploy_script"]}}
+        only_if     do
+          not app["postdeploy_script"].nil? and
+          not app["postdeploy_script"].empty? and 
+          ::File.exists?("#{app["target_path"]}/#{app["postdeploy_script"]}")
+        end
     end
-
   end
 
 
@@ -125,14 +129,8 @@ node["app"]["ruby"]["rack_apps"].each do |app|
   nginx_passenger_site app["domain"] do
     static_files_path   "#{app["target_path"]}/public"
     rack_env            app["environment"]
+    server_alias        app["alias"] if app["alias"]
   end
 
-  # site = {"domain" => app["domain"],
-  #         "document_root" => "#{app["target_path"]}/public"}
-
-  # node.set['lang']['ruby']['rails']['sites'] = 
-  #     node['lang']['ruby']['rails']['sites'] | [site]
-
-  # include_recipe "appserver_nginx::add_passenger_site"
 
 end
