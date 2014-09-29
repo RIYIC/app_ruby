@@ -20,10 +20,6 @@ depends "build-essential"
   supports os
 end
 
-recipe "default",
-    description: "empty",
-    attributes: []
-
 
 #deploy_rails_app
 recipe "deploy_rails_app",

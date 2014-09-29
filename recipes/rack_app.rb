@@ -106,7 +106,7 @@ node["app"]["ruby"]["rack_apps"].each do |app|
         cwd         app["target_path"]
         environment env_hash
         code        app["migration_command"]
-        only_if     app["migrate"] == "yes"
+        only_if     {app["migrate"] == "yes"}
     end
 
     # agora temos o recurso "bash" parcheado para que utilice rvm_shell como provider
