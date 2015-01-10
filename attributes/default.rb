@@ -1,0 +1,17 @@
+default["app"]["rack"]["default_server_alias"] = []
+default["app"]["rack"]["default_target_path"] = nil
+default["app"]["rack"]["default_owner"] = nil
+default["app"]["rack"]["default_group"] = 'users'
+default["app"]["rack"]["default_repo_url"] = nil
+default["app"]["rack"]["default_repo_type"] = 'git'
+default["app"]["rack"]["default_revision"] = 'HEAD'
+default["app"]["rack"]["default_credential"] = nil
+default["app"]["rack"]["default_purge_target_path"] = "no"
+default["app"]["rack"]["default_repo_depth"] = nil
+default["app"]["rack"]["default_environment"] = 'production'
+default["app"]["rack"]["default_static_files_path"] = nil
+default["app"]["rack"]["default_migration_command"] = nil
+default["app"]["rack"]["default_exclude_bundler_groups"] = []
+default["app"]["rack"]["default_postdeploy_script"] = nil
+default["app"]["rack"]["default_extra_gems"] = []
+default["app"]["rack"]["default_extra_packages"] = []
