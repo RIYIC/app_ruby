@@ -1,0 +1,56 @@
+---
+driver:
+  name: docker
+  use_sudo: false
+  disable_upstart: false
+  remove_images: true
+
+provisioner:
+  name: chef_solo
+  #chef_omnibus_root: /opt/chef/
+  solo_rb: {
+      "ssl_verify_mode": "verify_peer",
+      "cookbook_path": ["/mnt/cookbooks/supermarket", "/mnt/riyic/cookbooks", "/mnt/others/cookbooks"],
+      "log_level": "debug"
+  }
+
+
+platforms:
+  - name: riyic
+    driver:
+      image: riyic_base:latest
+      platform: ubuntu
+      require_chef_omnibus: false
+      use_cache: false
+      remove_images: false
+      volume:
+          - /opt/chef:/opt/chef:ro
+          - /home/alambike/proxectos/chef:/mnt/:ro
+
+
+
+suites:
+  - name: default
+    run_list:
+        - ["recipe[riyic::default]", "recipe[app_ruby::rack_app]","recipe[riyic::test_helper]"]
+    attributes: {
+  "app": {
+    "ruby": {
+      "rack_apps": [
+        {
+          "domain": "rails.riyic.com",
+          "environment": "development",
+          "target_path": "/home/riyic/",
+          "owner": "riyic",
+          "group": "riyicgrp",
+          "repo_url": "https://github.com/alambike/rails_example",
+          "repo_type": "git",
+          "revision": "master",
+          "repo_depth": 1,
+          "purge_target_path": "yes",
+          "extra_packages": ["nodejs"]
+        }
+      ]
+    }
+  }
+}
