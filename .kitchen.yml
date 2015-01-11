@@ -39,7 +39,7 @@ suites:
       "rack_apps": [
         {
           "domain": "rails.riyic.com",
-          "environment": "development",
+          "environment": "test",
           "target_path": "/home/riyic/",
           "owner": "riyic",
           "group": "riyicgrp",
