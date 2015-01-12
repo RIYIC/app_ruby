@@ -48,7 +48,7 @@ suites:
           "revision": "master",
           "repo_depth": 1,
           "purge_target_path": "yes",
-          "extra_packages": ["nodejs"]
+          "extra_packages": ["nodejs","libsqlite3-dev"]
         }
       ]
     }
