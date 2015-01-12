@@ -20,7 +20,8 @@ class Chef
                 code =  %{bundle install --deployment --binstubs}
                 code << %{--without #{new_resource.exclude_bundler_groups.join(' ')}} if new_resource.exclude_bundler_groups.any?
 
-                rvm_shell "bundle install" do    
+#                rvm_shell "bundle install" do    
+                 bash "bundle install" do
                     user        new_resource.owner
                     group       new_resource.group
                     cwd         new_resource.target_path
@@ -61,7 +62,8 @@ class Chef
 
                 else
                     # aplicamos a migracion
-                    rvm_shell "exec_db_migration" do    
+                    #rvm_shell "exec_db_migration" do    
+                    bash "exec_db_migration" do
                         user        new_resource.owner
                         group       new_resource.group
                         cwd         new_resource.target_path
