@@ -54,3 +54,33 @@ suites:
     }
   }
 }
+
+  - name: rvm
+    run_list:
+        - ["recipe[riyic::default]", "recipe[app_ruby::rack_app]","recipe[riyic::test_helper]"]
+    attributes: {
+  "app": {
+    "ruby": {
+      "rack_apps": [
+        {
+          "domain": "rails.riyic.com",
+          "environment": "test",
+          "target_path": "/home/riyic/",
+          "owner": "riyic",
+          "group": "riyicgrp",
+          "repo_url": "https://github.com/alambike/rails_example",
+          "repo_type": "git",
+          "revision": "master",
+          "repo_depth": 1,
+          "purge_target_path": "yes",
+          "extra_packages": ["nodejs","libsqlite3-dev"]
+        }
+      ]
+    }
+  },
+  "lang": {
+      "ruby": {
+          "use_rvm": true
+      }
+  }
+}
