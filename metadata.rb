@@ -130,7 +130,7 @@ attribute "app/ruby/rack_apps/@/purge_target_path",
  attribute "app/ruby/rack_apps/@/repo_depth",
     :display_name => "Number of past revisions to download (git)",
     :description => "The number of past revisions that will be included in the git shallow clone. The default behavior will do a full clone.",
-    :default => 0,
+    :default => "0",
     :validations => {predefined: "int"}
 
 #attribute "app/ruby/rack_apps/@/migrate",
