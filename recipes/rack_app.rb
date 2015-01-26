@@ -29,7 +29,7 @@ node["app"]["ruby"]["rack_apps"].each do |app|
 
                 ).each do |m|
 
-                        v = app[m] || node["app"]["ruby"]["default_#{m}"]
+                        v = app[m] || node["app"]["rack"]["default_#{m}"]
 
                         self.send(m,v)
 
