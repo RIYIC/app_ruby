@@ -21,14 +21,8 @@ depends "riyic"
 end
 
 
-#deploy_rails_app
-#recipe "deploy_rails_app",
-#    description: "Install rails application from repository",
-#    attributes: [/^apps\/rails\//],
-#    dependencies: ["appserver_nginx::with_passenger", "lang_nodejs", "lang_ruby::install"]
-
 recipe "rack_app",
-    description: "Deploy rack app from repository with nginx+passenger support",
+    description: "Deploy a rack-enabled app from remote repository with nginx&passenger facing",
     attributes: [/^app\/ruby\/rack_apps\//],
     dependencies: ["lang_ruby::install", "appserver_nginx::with_passenger"],
     stackable: true
