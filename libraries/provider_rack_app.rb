@@ -18,7 +18,7 @@ class Chef
 
             def install_dependencies
                 code =  %{bundle install --deployment --binstubs}
-                code << %{--without #{new_resource.exclude_bundler_groups.join(' ')}} if new_resource.exclude_bundler_groups.any?
+                code << %{ --without #{new_resource.exclude_bundler_groups.join(' ')}} if new_resource.exclude_bundler_groups.any?
 
 #                rvm_shell "bundle install" do    
                  bash "bundle install" do
