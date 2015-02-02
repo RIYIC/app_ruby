@@ -13,6 +13,3 @@ cd <%= @app.target_path %> && <%=@app.migration_command %>
 cd <%= @app.target_path %> && bash <%=@app.postdeploy_script %>    
 <%end%>
 
-exec /usr/bin/runsvdir -P /etc/service 'log: #{ '.' * 395}'        
-#exec supervisord -c /etc/supervisord.conf -n 
-

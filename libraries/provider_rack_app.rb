@@ -49,9 +49,9 @@ class Chef
                 return unless new_resource.migration_command
 
                 if node["riyic"]["inside_container"]
-                    template "/root/start.sh" do
-                      source "start.sh.erb"
-                      mode "755"
+                    template "/root/extra_tasks.sh" do
+                      source "extra_tasks.sh.erb"
+                      mode "700"
                       owner "root"
                       group "root"
                       variables({
