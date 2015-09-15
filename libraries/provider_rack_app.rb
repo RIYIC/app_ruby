@@ -49,7 +49,8 @@ class Chef
                 return unless new_resource.migration_command
 
                 if node["riyic"]["inside_container"]
-                    template "/root/extra_tasks.sh" do
+
+                    template "#{node['riyic']['extra_tasks_dir']}/#{new_resource.domain}-rack_app.sh" do
                       source "extra_tasks.sh.erb"
                       mode "700"
                       owner "root"
