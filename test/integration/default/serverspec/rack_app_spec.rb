@@ -1,9 +1,11 @@
 require 'spec_helper'
 
-describe "PassengerWatchdog" do
+describe "Passenger Watchdog" do
 
-    it "has a running service 'PassengerWatchdog'" do
-        expect(service("PassengerWatchdog")).to be_running
+    c = command('ps -auxwwwwf')
+    
+    it "has a running service 'Passenger Watchdog'" do
+        expect(c.stdout).to match /passenger\swatchdog/i
     end
 end
 
@@ -58,7 +60,7 @@ describe "Example Rack app in domain #{domain}" do
 
     describe "Passenger #{domain} proccess" do
 
-        c = command("ps -auxwwwwf |fgrep 'Passenger RackApp:'|fgrep '#{target_path.gsub!(/\/$/,'')}'")
+        c = command("ps -auxwwwwf |egrep 'Passenger (RackApp|RubyApp)'|fgrep '#{target_path.gsub!(/\/$/,'')}'")
 
         it "must be running as app user #{user}" do
             expect(c.stdout).to match /^#{user}/
