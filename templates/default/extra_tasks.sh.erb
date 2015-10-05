@@ -3,13 +3,17 @@
 export <%=name%>=<%=value %>                       
 <%end%>                                                 
                                                                    
-<%if @app.migration_command %>                                     
-cd <%= @app.target_path %> && <%=@app.migration_command %>         
+<%if @app.migration_command %> 
+
+su -c 'cd <%= @app.target_path %> && <%=@app.migration_command %>' <%=@app.owner%>
+
 <%end%>                                                            
                                                                    
 <% if not @app.postdeploy_script.nil? and                          
       not @app.postdeploy_script.empty? and                        
-      ::File.exists?("#{@app.target_path}/#{@app.postdeploy_script}") %>        
-cd <%= @app.target_path %> && bash <%=@app.postdeploy_script %>    
+      ::File.exists?("#{@app.target_path}/#{@app.postdeploy_script}") %>
+
+su -c 'cd <%= @app.target_path %> && bash <%=@app.postdeploy_script %>' <%=@app.owner%>
+
 <%end%>
 
