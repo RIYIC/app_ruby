@@ -5,37 +5,37 @@ node["app"]["ruby"]["rack_apps"].each do |app|
 
 	rack_app app["domain"] do 
 
-                %W(
-                        server_alias 
-                        target_path
-                        owner
-                        group
+    %W(
+        server_alias 
+        target_path
+        owner
+        group
 
-                        repo_url
-                        repo_type
-                        revision
-                        credential
-                        purge_target_path
-                        repo_depth
-                        environment
+        repo_url
+        repo_type
+        revision
+        credential
+        purge_target_path
+        repo_depth
+        environment
 
-                        migration_command
-                        exclude_bundler_groups
-                        postdeploy_script
+        migration_command
+        exclude_bundler_groups
+        postdeploy_script
 
-                        extra_packages
-                        extra_gems
+        extra_packages
+        extra_gems
 
 
-                ).each do |m|
+    ).each do |m|
 
-                        v = app[m] || node["app"]["rack"]["default_#{m}"]
+        v = app[m] || node["app"]["rack"]["default_#{m}"]
 
-                        self.send(m,v)
+        self.send(m,v)
 
-                end
+    end
 
-                notifies   :restart, 'service[nginx]'
+    notifies   :restart, 'service[nginx]'
 
 	end
 end
